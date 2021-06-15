@@ -1,0 +1,60 @@
+import pygame
+
+pygame.init()
+
+screen_width = 800
+screen_height = int(screen_width * 0.8)
+
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption('Drift Shooter')
+
+moving_left = False
+moving_right = False
+
+class Soldier(pygame.sprite.Sprite):
+    def __init__(self,x,y,scale,speed):
+        pygame.sprite.Sprite.__init__(self)
+        self.speed = speed
+        img = pygame.image.load('man.png')
+        self.image = pygame.transform.scale(img,(100,100))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+player = Soldier(200,200,3, 5)
+player2 = Soldier(400,200,3)
+  
+run = True
+while run:
+
+    player.draw()
+    player2.draw()
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                moving_left = True
+            if event.key == pygame.K_d:
+                moving_right = True
+            if event.key == pygame.K_ESCAPE:
+                run = False
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_a:
+                moving_left = False
+            if event.key == pygame.K_d:
+                moving_right = False
+
+
+
+
+    
+    pygame.display.update()
+
+pygame.quit()
+
+
