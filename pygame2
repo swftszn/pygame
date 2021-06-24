@@ -1,0 +1,30 @@
+#imports pygame and sys module
+import pygame, sys
+
+#initializes all imported module so game can run
+pygame.init()
+#initializes pygame.time.Clock so fps can be limited
+clock = pygame.time.Clock()
+
+screen_width = 1280 #width of screen
+screen_height = 960 #height of screen
+
+#returns a display surface object (sets the width and the height of screen)
+screen = pygame.display.set_mode((screen_width, screen_height))
+#gives the window a title
+pygame.display.set_caption('Pong')
+
+while True: #updates the game
+    #Handling Input
+    for event in pygame.event.get(): #checks for all users actions
+        if event.type == pygame.QUIT: #if users wants to quit, the game will close
+            pygame.quit() #initializes quit to pygame module
+            sys.exit() #uses sys module to exit the whole program
+            #both pygame.quit and sys.exit closes the game reliably
+
+        pygame.display.flip() #takes everything that came before it in the loop and draws a picture from that
+        clock.tick(60) #limits how fast the loop runs
+
+        
+        
+    
