@@ -1,4 +1,4 @@
-#imports pygame and sys modules
+#imports pygame and sys module
 import pygame, sys
 
 #initializes all imported module so game can run
@@ -13,6 +13,11 @@ screen_height = 960 #height of screen
 screen = pygame.display.set_mode((screen_width, screen_height))
 #gives the window a title
 pygame.display.set_caption('Pong')
+
+#Game Rectangles
+ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30) #defines rectangle for the ball.
+player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
+opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
 
 while True: #updates the game
     #Handling Input
