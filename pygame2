@@ -1,4 +1,4 @@
-#imports pygame and sys module
+#imports pygame and sys modules
 import pygame, sys
 
 #initializes all imported module so game can run
