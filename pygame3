@@ -1,0 +1,110 @@
+#imports pygame, sys and random module
+import pygame, sys, random
+
+def ball_animation(): #function for ball movement
+    
+    global ball_speed_x, ball_speed_y #declares global variables
+    #makes the ball have the speed in the loop
+    ball.x += ball_speed_x 
+    ball.y += ball_speed_y
+
+    if ball.top <= 0 or ball.bottom >= screen_height: #if ball touches the top or bottom of the screen
+        ball_speed_y *= -1 #reverses y axis speed 
+    if ball.left <= 0 or ball.right >= screen_width: #if ball touches left or right of screen
+        ball_restart()
+
+    if ball.colliderect(player) or ball.colliderect(opponent): #if ball collides with either player,
+        ball_speed_x *= -1 #the balls speed will reverse on x axis
+
+def player_animation(): #function for player movement
+    player.y += player_speed #loops player_speed for y axis
+    
+    if player.top <= 0: #if player touches the top of the screen
+        player.top = 0 #player will not move
+    if player.bottom >= screen_height: #if player touches the bottom of the screen
+        player.bottom = screen_height #player will not move
+
+def opponent_animation(): #function for player movement
+    opponent.y += opponent_speed #loops player_speed for y axis
+    
+    if opponent.top <= 0: #if player touches the top of the screen
+        opponent.top = 0 #player will not move
+    if opponent.bottom >= screen_height: #if player touches the bottom of the screen
+        opponent.bottom = screen_height #player will not move
+
+def ball_restart(): #function for when the ball restarts
+    
+    global ball_speed_x, ball_speed_y #declares global variables
+    
+    ball.center = (screen_width/2, screen_height/2) #equals signs teleports the ball to the center of the screen
+    ball_speed_y *= random.choice((1,-1)) #uses random module and randomizes the ball speed direction on y axis
+    ball_speed_x *= random.choice((1,-1)) #uses random module and randomizes the ball speed direction on x axis
+    
+#initializes all imported module so game can run
+pygame.init()
+#initializes pygame.time.Clock so fps can be limited
+clock = pygame.time.Clock()
+
+screen_width = 960 #width of screen
+screen_height = 720 #height of screen
+
+#returns a display surface object (sets the width and the height of screen)
+screen = pygame.display.set_mode((screen_width, screen_height))
+#gives the window a title
+pygame.display.set_caption('Pong')
+
+#Game Rectangles
+ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30) #defines rectangle for the ball.
+player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
+opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
+
+bg_color = pygame.Color('grey12')#background colour
+light_grey = (200,200,200)#gets the colour light grey
+
+ball_speed_x = 7 * random.choice((1,-1))#horizontal speed
+ball_speed_y = 7 * random.choice((1,-1))#vertical speed
+player_speed = 0 #player idle speed
+opponent_speed = 0
+
+while True: #updates the game
+    #Handling Input
+    for event in pygame.event.get(): #checks for all users actions
+        if event.type == pygame.QUIT: #if users wants to quit, the game will close
+            pygame.quit() #initializes quit to pygame module
+            sys.exit() #uses sys module to exit the whole program
+            #both pygame.quit and sys.exit closes the game reliably
+        if event.type == pygame.KEYDOWN: #checks if anykeys are pressed down
+            if event.key == pygame.K_DOWN: #executes when down key has been pressed
+                player_speed += 7 #player speed wll increase by 7 upwards on y axis
+            if event.key == pygame.K_UP: #executes when up key has been pressed
+                player_speed -=7 #player speed wll increase by 7 downwards on y axis
+            if event.key == pygame.K_s: #executes when down key has been pressed
+                opponent_speed += 7 #player speed wll increase by 7 upwards on y axis
+            if event.key == pygame.K_w: #executes when up key has been pressed
+                opponent_speed -=7 #player speed wll increase by 7 downwards on y axis
+        if event.type == pygame.KEYUP: #checks if anykeys are released
+            if event.key == pygame.K_DOWN: #executes when down key has been pressed
+                player_speed -= 7 #player speed will decrease by 7 upwards on y axis
+            if event.key == pygame.K_UP: #executes when up key has been pressed
+                player_speed +=7 #player speed wll decrease by 7 downwards on y axis
+            if event.key == pygame.K_s: #executes when down key has been pressed
+                opponent_speed -= 7 #player speed will decrease by 7 upwards on y axis
+            if event.key == pygame.K_w: #executes when up key has been pressed
+                opponent_speed +=7 #player speed wll decrease by 7 downwards on y axis
+
+        
+
+    ball_animation()#loops function
+    player_animation()
+    opponent_animation()
+    
+    #Visuals
+    screen.fill(bg_color)#fills background with bg_color
+    pygame.draw.rect(screen, light_grey, player)#draws players on screen with light grey colour
+    pygame.draw.rect(screen, light_grey, opponent)
+    pygame.draw.ellipse(screen, light_grey, ball)#draws ellipse for ball
+    pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2, screen_height))#draws the line in the middle of the screen, divides screen width to center the line
+
+    
+    pygame.display.flip() #takes everything that came before it in the loop and draws a picture from that
+    clock.tick(60) #limits how fast the loop runs
