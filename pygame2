@@ -19,6 +19,12 @@ ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30) #defines r
 player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
 opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
 
+bg_color = pygame.Color('grey12')#background colour
+light_grey = (200,200,200)#gets the colour light grey
+
+ball_speed_x = 7 #horizontal speed
+ball_speed_y = 7 #vertical speed
+
 while True: #updates the game
     #Handling Input
     for event in pygame.event.get(): #checks for all users actions
@@ -26,9 +32,26 @@ while True: #updates the game
             pygame.quit() #initializes quit to pygame module
             sys.exit() #uses sys module to exit the whole program
             #both pygame.quit and sys.exit closes the game reliably
+            
+    #makes the ball have the speed in the loop
+    ball.x += ball_speed_x
+    ball.y += ball_speed_y
 
-        pygame.display.flip() #takes everything that came before it in the loop and draws a picture from that
-        clock.tick(60) #limits how fast the loop runs
+    if ball.top <= 0 or ball.bottom >= screen_height:
+        ball_speed_y *= -1
+    if ball.left <= 0 or ball.right >= screen_width:
+        ball_speed_x *= -1
+
+    #Visuals
+    screen.fill(bg_color)#fills background with bg_color
+    pygame.draw.rect(screen, light_grey, player)#draws players on screen with light grey colour
+    pygame.draw.rect(screen, light_grey, opponent)
+    pygame.draw.ellipse(screen, light_grey, ball)#draws ellipse for ball
+    pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2, screen_height))#draws the line in the middle of the screen, divides screen width to center the line
+
+    
+    pygame.display.flip() #takes everything that came before it in the loop and draws a picture from that
+    clock.tick(60) #limits how fast the loop runs
 
         
         
