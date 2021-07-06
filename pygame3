@@ -3,14 +3,19 @@ import pygame, sys, random
 
 def ball_animation(): #function for ball movement
     
-    global ball_speed_x, ball_speed_y #declares global variables
+    global ball_speed_x, ball_speed_y, player_score, opponent_score #declares global variables
     #makes the ball have the speed in the loop
     ball.x += ball_speed_x 
     ball.y += ball_speed_y
 
     if ball.top <= 0 or ball.bottom >= screen_height: #if ball touches the top or bottom of the screen
-        ball_speed_y *= -1 #reverses y axis speed 
-    if ball.left <= 0 or ball.right >= screen_width: #if ball touches left or right of screen
+        ball_speed_y *= -1 #reverses y axis speed
+        
+    if ball.left <= 0:
+        player_score += 1
+        ball_restart()
+    if ball.right >= screen_width:
+        opponent_score += 1
         ball_restart()
 
     if ball.colliderect(player) or ball.colliderect(opponent): #if ball collides with either player,
@@ -61,10 +66,16 @@ opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
 bg_color = pygame.Color('grey12')#background colour
 light_grey = (200,200,200)#gets the colour light grey
 
+#Game Variables
 ball_speed_x = 7 * random.choice((1,-1))#horizontal speed
 ball_speed_y = 7 * random.choice((1,-1))#vertical speed
 player_speed = 0 #player idle speed
-opponent_speed = 0
+opponent_speed = 0 #opponent idle speed
+
+#Text Variables
+player_score = 0 #player initial score
+opponent_score = 0 #opponent initial score
+game_font = pygame.font.Font("freesansbold.ttf", 32) #adding a font and font size
 
 while True: #updates the game
     #Handling Input
@@ -100,11 +111,17 @@ while True: #updates the game
     
     #Visuals
     screen.fill(bg_color)#fills background with bg_color
+    
     pygame.draw.rect(screen, light_grey, player)#draws players on screen with light grey colour
     pygame.draw.rect(screen, light_grey, opponent)
     pygame.draw.ellipse(screen, light_grey, ball)#draws ellipse for ball
     pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2, screen_height))#draws the line in the middle of the screen, divides screen width to center the line
 
+    player_text = game_font.render(f"{player_score}",False,light_grey)#surface for text, renders text and adds color to text
+    screen.blit(player_text, (screen_width/2 + 50,screen_height/2))#draws the player_text variable and placed surface text on screen.
+
+    opponent_text = game_font.render(f"{opponent_score}",False,light_grey)#surface for text, renders text and adds color to text
+    screen.blit(opponent_text, (screen_width/2 - 80,screen_height/2))#draws the player_text variable and placed surface text on screen.
     
     pygame.display.flip() #takes everything that came before it in the loop and draws a picture from that
     clock.tick(60) #limits how fast the loop runs
