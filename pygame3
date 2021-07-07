@@ -5,18 +5,18 @@ def ball_animation(): #function for ball movement
     
     global ball_speed_x, ball_speed_y, player_score, opponent_score #declares global variables
     #makes the ball have the speed in the loop
-    ball.x += ball_speed_x 
-    ball.y += ball_speed_y
+    ball.x += ball_speed_x  #gives ball on x axis a speed
+    ball.y += ball_speed_y #gives ball on y axis a speed
 
     if ball.top <= 0 or ball.bottom >= screen_height: #if ball touches the top or bottom of the screen
         ball_speed_y *= -1 #reverses y axis speed
         
-    if ball.left <= 0:
-        player_score += 1
-        ball_restart()
-    if ball.right >= screen_width:
-        opponent_score += 1
-        ball_restart()
+    if ball.left <= 0: #if ball touches left side of screen
+        player_score += 1 #player score will increase by one
+        ball_restart() #and the ball will recenter itself
+    if ball.right >= screen_width: #if ball touches right side of screen
+        opponent_score += 1 #opponent score will increase by one
+        ball_restart() #and the ball will recenter itself
 
     if ball.colliderect(player) or ball.colliderect(opponent): #if ball collides with either player,
         ball_speed_x *= -1 #the balls speed will reverse on x axis
@@ -60,8 +60,8 @@ pygame.display.set_caption('Pong')
 
 #Game Rectangles
 ball = pygame.Rect(screen_width/2 - 15, screen_height/2 - 15, 30, 30) #defines rectangle for the ball.
-player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140)
-opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140)
+player = pygame.Rect(screen_width - 20, screen_height/2 - 70, 10, 140) #defines rectangle for the player.
+opponent = pygame.Rect(10, screen_height/2 - 70, 10, 140) #defines rectangle for the opponent.
 
 bg_color = pygame.Color('grey12')#background colour
 light_grey = (200,200,200)#gets the colour light grey
@@ -89,23 +89,23 @@ while True: #updates the game
                 player_speed += 7 #player speed wll increase by 7 upwards on y axis
             if event.key == pygame.K_UP: #executes when up key has been pressed
                 player_speed -=7 #player speed wll increase by 7 downwards on y axis
-            if event.key == pygame.K_s: #executes when down key has been pressed
-                opponent_speed += 7 #player speed wll increase by 7 upwards on y axis
-            if event.key == pygame.K_w: #executes when up key has been pressed
-                opponent_speed -=7 #player speed wll increase by 7 downwards on y axis
+            if event.key == pygame.K_s: #executes when s key has been pressed
+                opponent_speed += 7 #opponent speed wll increase by 7 upwards on y axis
+            if event.key == pygame.K_w: #executes when w key has been pressed
+                opponent_speed -=7 #opponent speed wll increase by 7 downwards on y axis
         if event.type == pygame.KEYUP: #checks if anykeys are released
-            if event.key == pygame.K_DOWN: #executes when down key has been pressed
-                player_speed -= 7 #player speed will decrease by 7 upwards on y axis
-            if event.key == pygame.K_UP: #executes when up key has been pressed
-                player_speed +=7 #player speed wll decrease by 7 downwards on y axis
-            if event.key == pygame.K_s: #executes when down key has been pressed
-                opponent_speed -= 7 #player speed will decrease by 7 upwards on y axis
-            if event.key == pygame.K_w: #executes when up key has been pressed
-                opponent_speed +=7 #player speed wll decrease by 7 downwards on y axis
+            if event.key == pygame.K_DOWN: #executes when down key has been released
+                player_speed -= 7 #player speed will decrease by 7 upwards on y axis causing the player to stop
+            if event.key == pygame.K_UP: #executes when up key has been released
+                player_speed +=7 #player speed wll decrease by 7 downwards on y axis causing the player to stop
+            if event.key == pygame.K_s: #executes when s key has been released
+                opponent_speed -= 7 #opponent speed will decrease by 7 upwards on y axis causing the opponent to stop
+            if event.key == pygame.K_w: #executes when w key has been released
+                opponent_speed +=7 #opponent speed wll decrease by 7 downwards on y axis causing the opponent to stop
 
         
-
-    ball_animation()#loops function
+    #Game Logic (Loops all function that are defined)
+    ball_animation()
     player_animation()
     opponent_animation()
     
@@ -113,7 +113,7 @@ while True: #updates the game
     screen.fill(bg_color)#fills background with bg_color
     
     pygame.draw.rect(screen, light_grey, player)#draws players on screen with light grey colour
-    pygame.draw.rect(screen, light_grey, opponent)
+    pygame.draw.rect(screen, light_grey, opponent)#draws opponent on screen with light grey colour
     pygame.draw.ellipse(screen, light_grey, ball)#draws ellipse for ball
     pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2, screen_height))#draws the line in the middle of the screen, divides screen width to center the line
 
