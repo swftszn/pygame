@@ -68,8 +68,8 @@ pygame.init()
 #initializes pygame.time.Clock so fps can be limited
 clock = pygame.time.Clock()
 
-screen_width = 1280 #width of screen
-screen_height = 960 #height of screen
+screen_width = 960 #width of screen
+screen_height = 720 #height of screen
 
 #returns a display surface object (sets the width and the height of screen)
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -98,20 +98,23 @@ game_font = pygame.font.Font("freesansbold.ttf", 32) #adding a font and font siz
 #Score Timer
 score_time = True
 
+#Images
+start = pygame.image.load('Graphics\start.png').convert_alpha()
+start = pygame.transform.smoothscale(start, (200, 200))
+
 def main_menu():
     while True:
  
-        screen.fill((0,0,0))
+        screen.fill((100,100,100))
  
         mx, my = pygame.mouse.get_pos()
  
-        button_1 = pygame.Rect(screen_width/2, screen_height/2, 200, 50)
-        button_1.center
+        button_1 = pygame.Rect(0, 0, 200, 100)
+        button_1.center = (screen_width/2, screen_height/2)
+        screen.blit(start, button_1)
         if button_1.collidepoint((mx, my)):
             if click:
                 game()
-
-        pygame.draw.rect(screen, (255, 0, 0), button_1)
 
  
         click = False
