@@ -99,45 +99,51 @@ game_font = pygame.font.Font("freesansbold.ttf", 32) #adding a font and font siz
 score_time = True
 
 #Images
-start = pygame.image.load('Graphics\start.png').convert_alpha()
-start = pygame.transform.smoothscale(start, (200, 200))
+start = pygame.image.load('Graphics\start.png').convert_alpha() #imports image
+start = pygame.transform.smoothscale(start, (200, 200))#resizes the image clearly
 
-def main_menu():
-    while True:
+def main_menu(): #function for menu in the start
+    while True: #when true
+
+        global mx, my, ball_speed_x, ball_speed_y, player_score, opponent_score, score_time, player_speed, opponent_speed #declares global variables
  
-        screen.fill((100,100,100))
+        screen.fill((100,100,100)) #fills the screen with a grey colour
  
-        mx, my = pygame.mouse.get_pos()
+        mx, my = pygame.mouse.get_pos() #mouse x and mouse y would track the position of the mouse
  
-        button_1 = pygame.Rect(0, 0, 200, 100)
-        button_1.center = (screen_width/2, screen_height/2)
-        screen.blit(start, button_1)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                game()
+        button_1 = pygame.Rect(0, 0, 200, 100)#the button as a rect
+        button_1.center = (screen_width/2, screen_height/2)#center the button in the middle of the screen /2 screen width and height
+        screen.blit(start, button_1)#puts image on the rectangle
+        if button_1.collidepoint((mx, my)):#if button collides with your mouse
+            if click: #if you click your mouse
+                game() #the game function will start
 
  
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
+        click = False #if user hasn't clicked
+        for event in pygame.event.get(): #checks for all users actions
+            if event.type == pygame.QUIT: #if users wants to quit, the game will close
+                pygame.quit() #initializes quit to pygame module
+                sys.exit() #uses sys module to exit the whole program
+            if event.type == pygame.KEYDOWN: #checks if anykeys are pressed down
+                if event.key == K_ESCAPE:#executes when escape key has been pressed
+                    pygame.quit() #initializes quit to pygame module
+                    sys.exit() #uses sys module to exit the whole program
+            if event.type == pygame.MOUSEBUTTONDOWN: #executes when escape key has been pressed
+                if event.button == 1: #if button is clicked once
+                    click = True #click will be true and game will start
  
-        pygame.display.update()
-        clock.tick(60)
+        pygame.display.update() #takes everything that came before it in the loop and draws a picture from that
+        clock.tick(60) #limits how fast the loop runs
+
     
-def game():
-    running = True
+def game(): #function for game
+
+    global mx, my, ball_speed_x, ball_speed_y, player_score, opponent_score, score_time, player_speed, opponent_speed 
+    
+    running = True #the game running will be true
     while running: #updates the game
         #Handling Input
-        screen.fill((0,0,0))
+        screen.fill((0,0,0)) #fills the screen with that colour
         
         for event in pygame.event.get(): #checks for all users actions
             if event.type == pygame.QUIT: #if users wants to quit, the game will close
