@@ -3,7 +3,7 @@ import pygame, sys, random
 
 def ball_animation(): #function for ball movement
     
-    global ball_speed_x, ball_speed_y, player_score, opponent_score, score_time #declares global variables
+    global ball_speed_x, ball_speed_y, player_score, opponent_score, score_time #declares global variables. Global variables initialize the variables for the whole function. 
     #makes the ball have the speed in the loop
     ball.x += ball_speed_x  #gives ball on x axis a speed
     ball.y += ball_speed_y #gives ball on y axis a speed
